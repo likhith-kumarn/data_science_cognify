@@ -39,13 +39,11 @@ df['City'].value_counts()
 df['Cuisines'].value_counts()
 
 df["City"].value_counts().head(10)
-
 top_cuisine=df["Cuisines"].value_counts().head(10)
 
 # Top Cities Plot
 plt.figure(figsize=(10,5))
 top_cities = df["City"].value_counts().head(10)
-
 sns.barplot(x=top_cities.values, y=top_cities.index)
 plt.title("Top Cities with Most Restaurants")
 plt.xlabel("Number of Restaurants")
@@ -61,7 +59,6 @@ plt.ylabel("Cuisines")
 plt.show()
 
 import folium
-
 map_center=[df['Longitude'].mean(),df['Latitude'].mean()]
 
 restaurant_map = folium.Map(location=map_center, zoom_start=5)
@@ -73,8 +70,8 @@ for i in range(len(df)):
 
 restaurant_map
 
-country_dist = df['Country Code'].value_counts()
 
+country_dist = df['Country Code'].value_counts()
 plt.figure(figsize=(8,5))
 sns.barplot(x=country_dist.index, y=country_dist.values)
 plt.title("Restaurants by Country Code")
@@ -142,7 +139,6 @@ print(df[['Restaurant Name','Restaurant_Name_Length']].head())
 
 df['Address_Length'] = df['Address'].apply(len)
 df['Address_Length']
-
 print(df[['Address','Address_Length']].head())
 
 df['Has_Table_Booking'] = df['Has Table booking'].map({'Yes':1,'No':0})
@@ -160,7 +156,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
-
 from sklearn.metrics import mean_squared_error, r2_score
 
 X = df.drop(columns=['Aggregate rating','Restaurant Name','Address','Cuisines'])
@@ -176,23 +171,18 @@ print("Training size:", X_train.shape)
 print("Testing size:", X_test.shape)
 
 lr = LinearRegression()
-
 lr.fit(X_train, y_train)
-
 pred_lr = lr.predict(X_test)
 
 mse_lr = mean_squared_error(y_test, pred_lr)
 r2_lr = r2_score(y_test, pred_lr)
-
 print("Linear Regression Results")
 print("MSE:", mse_lr)
 print("R2 Score:", r2_lr)
 
 dt = DecisionTreeRegressor(random_state=42)
 dt.fit(X_train, y_train)
-
 pred_dt = dt.predict(X_test)
-
 mse_dt = mean_squared_error(y_test, pred_dt)
 r2_dt = r2_score(y_test, pred_dt)
 
@@ -201,11 +191,8 @@ print("MSE:", mse_dt)
 print("R2 Score:", r2_dt)
 
 rf = RandomForestRegressor(n_estimators=100, random_state=42)
-
 rf.fit(X_train, y_train)
-
 pred_rf = rf.predict(X_test)
-
 mse_rf = mean_squared_error(y_test, pred_rf)
 r2_rf = r2_score(y_test, pred_rf)
 
@@ -247,64 +234,37 @@ top_rated_cuisines = df_cuisine.groupby('Cuisines')['Aggregate rating'].mean().s
 top_rated_cuisines
 
 sns.set(style="whitegrid")
-
 plt.figure(figsize=(8,5))
-
 sns.histplot(df['Aggregate rating'], bins=20, kde=True)
-
 plt.title("Distribution of Restaurant Ratings")
 plt.xlabel("Aggregate Rating")
 plt.ylabel("Number of Restaurants")
-
 plt.show()
 
 rating_counts = df['Aggregate rating'].value_counts().sort_index()
 
 plt.figure(figsize=(10,5))
-
 sns.barplot(x=rating_counts.index, y=rating_counts.values)
-
 plt.title("Rating Frequency Distribution")
 plt.xlabel("Rating")
 plt.ylabel("Count")
-
 plt.show()
 
 df['Cuisines'] = df['Cuisines'].astype(str)
-
 df_cuisine = df.assign(Cuisines=df['Cuisines'].str.split(', ')).explode('Cuisines')
-
 top_cuisines = df_cuisine['Cuisines'].value_counts().head(10).index
-
 cuisine_rating = df_cuisine[df_cuisine['Cuisines'].isin(top_cuisines)].groupby('Cuisines')['Aggregate rating'].mean()
 
 plt.figure(figsize=(10,6))
-
 sns.barplot(x=cuisine_rating.values, y=cuisine_rating.index)
-
 plt.title("Average Rating by Cuisine")
 plt.xlabel("Average Rating")
 plt.ylabel("Cuisine")
-
 plt.show()
 
-plt.figure(figsize=(8,5))
-
-sns.boxplot(x='Price range', y='Aggregate rating', data=df)
-
-plt.title("Price Range vs Rating")
-plt.xlabel("Price Range")
-plt.ylabel("Aggregate Rating")
-
-plt.show()
 
 plt.figure(figsize=(8,6))
-
 corr = df[['Aggregate rating','Votes','Price range','Latitude','Longitude']].corr()
-
 sns.heatmap(corr, annot=True, cmap='coolwarm')
-
 plt.title("Correlation Between Features")
-
 plt.show()
-
