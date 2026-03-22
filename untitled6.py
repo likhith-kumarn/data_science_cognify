@@ -163,10 +163,7 @@ y = df['Aggregate rating']
 
 X = pd.get_dummies(X, drop_first=True)
 
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
-)
-
+X_train, X_test, y_train, y_test = train_test_split( X, y, test_size=0.2, random_state=42)
 print("Training size:", X_train.shape)
 print("Testing size:", X_test.shape)
 
@@ -205,7 +202,6 @@ results = pd.DataFrame({
     "MSE":[mse_lr,mse_dt,mse_rf],
     "R2 Score":[r2_lr,r2_dt,r2_rf]
 })
-
 print(results)
 
 df['Cuisines'] = df['Cuisines'].astype(str)
@@ -261,7 +257,6 @@ plt.title("Average Rating by Cuisine")
 plt.xlabel("Average Rating")
 plt.ylabel("Cuisine")
 plt.show()
-
 
 plt.figure(figsize=(8,6))
 corr = df[['Aggregate rating','Votes','Price range','Latitude','Longitude']].corr()
