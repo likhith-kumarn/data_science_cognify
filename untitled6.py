@@ -67,7 +67,6 @@ for i in range(len(df)):
         location=[df.iloc[i]['Latitude'], df.iloc[i]['Longitude']],
         popup=df.iloc[i]['Restaurant Name']
     ).add_to(restaurant_map)
-
 restaurant_map
 
 
