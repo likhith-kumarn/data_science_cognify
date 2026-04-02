@@ -8,7 +8,6 @@ df.head()
 df.shape
 df.shape[0]
 df.shape[1]
-
 df.isnull().sum()
 
 #if null exists
